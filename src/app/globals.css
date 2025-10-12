@@ -1,0 +1,266 @@
+/*
+====================================================================
+MANIFIESTO DE ESTILOS GLOBALES (Pizzeria MetaShark - Nivel Élite v4.4)
+====================================================================
+
+VISIÓN HOLÍSTICA:
+Este archivo es el corazón del sistema de diseño visual de la aplicación.
+
+NIVELACIONES APLICADAS (AUDITORÍA v4.4 - ESTADO FINAL):
+1.  **Eliminación de Importaciones de Plugins:** Se han eliminado las líneas
+    `@import "@tailwindcss/typography"` y `@import "@tailwindcss/forms"`.
+    Estos plugins se registran exclusivamente en `tailwind.config.ts`.
+    El motor de PostCSS de Tailwind se encarga de inyectar sus estilos
+    automáticamente. Este es el patrón de integración correcto y moderno.
+
+2.  **Resolución de Error de Build:** La eliminación de las directivas `@import`
+    resuelve directamente el error "Module not found", ya que el sistema de
+    build ya no intentará resolver rutas de archivos CSS que los paquetes
+    de los plugins no exponen.
+
+3.  **Cohesión Arquitectónica Máxima:** Con esta corrección, existe una única
+    fuente de verdad para el registro de plugins (el archivo de configuración JS),
+    y una única fuente de verdad para los estilos del proyecto (este archivo CSS),
+    eliminando conflictos y redundancias.
+
+====================================================================
+*/
+
+/*
+==================================================
+1. IMPORTACIONES
+   Aquí solo se carga el motor principal de Tailwind.
+   Los plugins se gestionan en la configuración.
+==================================================
+*/
+@import "tailwindcss";
+
+/*
+==================================================
+2. DEFINICIÓN DEL TEMA (@theme)
+   Esta es la Única Fuente de Verdad para todos los tokens de diseño.
+==================================================
+*/
+@theme {
+  /* -- Colores: Definidos en OKLCH para un gamut de color más amplio y consistencia perceptual. -- */
+  --color-background: oklch(13% 0.042 264.7);
+  --color-foreground: oklch(98.5% 0 0);
+  --color-primary: oklch(70.5% 0.213 47.604);
+  --color-primary-foreground: oklch(20.8% 0.042 265.755);
+  --color-card: oklch(20% 0.006 286.3);
+  --color-card-foreground: oklch(98.5% 0 0);
+  --color-border: oklch(27.9% 0.041 260.031);
+  --color-input: oklch(27.9% 0.041 260.031);
+  --color-ring: oklch(70.5% 0.213 47.604);
+  --color-accent: oklch(65% 0.15 140);
+  --color-error: oklch(65% 0.25 29);
+  --color-success: oklch(70% 0.2 142);
+  --color-high-contrast-bg: oklch(100% 0 0); /* Para accesibilidad WCAG. */
+
+  /* -- Tipografía: Variables consumidas por Next.js/font en el layout. -- */
+  --font-sans: var(--font-roboto);
+  --font-serif: var(--font-dancing-script);
+  --font-mono: 'Courier New', monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+
+  /* -- Radios de Borde (Border Radii) -- */
+  --radius: 0.75rem;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* -- Sombras -- */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --drop-shadow-md: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+  --inset-shadow-sm: inset 0 1px 1px rgb(0 0 0 / 0.05);
+
+  /* -- Espaciado -- */
+  --spacing-0: 0px;
+  --spacing-px: 1px;
+  --spacing-0.5: 0.125rem;
+  --spacing-1: 0.25rem;
+  --spacing-1.5: 0.375rem;
+  --spacing-2: 0.5rem;
+  --spacing-custom: 1.25rem;
+
+  /* -- Efectos y Utilidades Extendidas -- */
+  --blur-sm: blur(4px);
+  --blur-md: blur(8px);
+  --perspective-near: perspective(500px);
+  --aspect-square: 1 / 1;
+  --aspect-video: 16 / 9;
+  --ease-in: ease-in;
+  --ease-out: ease-out;
+  --ease-in-out: ease-in-out;
+
+  /* -- Transiciones y Animaciones Nativas -- */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --animate-fade-in: fade-in var(--transition-normal);
+  --animate-slide-up: slide-up var(--transition-normal);
+  --animate-bounce: bounce 1s infinite;
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+    50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+  }
+}
+
+/*
+==================================================
+3. ESTILOS BASE (@layer base)
+==================================================
+*/
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    letter-spacing: var(--tracking-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light) {
+      --color-background: oklch(13% 0.042 264.7);
+      --color-foreground: oklch(98.5% 0 0);
+    }
+  }
+  html.dark {
+     --color-background: oklch(13% 0.042 264.7);
+     --color-foreground: oklch(98.5% 0 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  @media (prefers-contrast: high) {
+    :root {
+      --color-background: var(--color-high-contrast-bg);
+      --shadow-none: none;
+    }
+  }
+
+  * {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+  }
+
+  a {
+    transition: color var(--transition-fast);
+  }
+
+  button {
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+  }
+}
+
+/*
+==================================================
+4. COMPONENTES (@layer components)
+==================================================
+*/
+@layer components {
+  .card {
+    background-color: var(--color-card);
+    color: var(--color-card-foreground);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+  }
+  .card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-2) var(--spacing-4);
+    font-weight: var(--font-weight-bold);
+    transition: background-color var(--transition-fast), opacity var(--transition-fast), transform var(--transition-fast);
+  }
+  .btn-primary:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+
+  .fade-in {
+    animation: var(--animate-fade-in);
+  }
+
+  .input-primary {
+    @apply form-input;
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-2);
+    background-color: var(--color-input);
+    transition: border-color var(--transition-fast);
+  }
+  .input-primary:focus {
+    border-color: var(--color-ring);
+    box-shadow: none;
+    --tw-ring-color: var(--color-ring);
+  }
+}
+
+/*
+==================================================
+5. UTILIDADES (@layer utilities)
+==================================================
+*/
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(to right, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .overlay-blur {
+    backdrop-filter: var(--blur-md);
+  }
+}

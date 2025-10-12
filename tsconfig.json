@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    // --- Configuración Base del Lenguaje ---
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es2020", // Apuntamos a una versión moderna de JS que soportan los navegadores actuales
+    "allowJs": true, // Permite la interoperabilidad con archivos JS
+    "skipLibCheck": true, // Acelera la compilación al no verificar tipos en archivos .d.ts de dependencias
+    "strict": true, // Habilita todas las verificaciones estrictas de tipos (¡nuestro pilar fundamental!)
+    "forceConsistentCasingInFileNames": true, // Previene errores en sistemas de archivos case-sensitive
+
+    // --- Configuración de Módulos ---
+    "module": "esnext",
+    "moduleResolution": "bundler", // El modo moderno que funciona bien con pnpm, npm y yarn
+    "resolveJsonModule": true, // Permite importar archivos .json como módulos
+    "esModuleInterop": true, // Mejora la compatibilidad entre CommonJS y ES Modules
+    "isolatedModules": true, // Asegura que cada archivo pueda ser compilado de forma aislada
+
+    // --- Configuración de Next.js y JSX ---
+    "jsx": "preserve", // Next.js se encarga de la transformación de JSX
+    "incremental": true, // Habilita la compilación incremental para builds más rápidos
+    "noEmit": true, // No genera archivos JS (Next.js/Babel se encarga de eso)
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+
+    // --- Configuración de Rutas (Alias) ---
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+
+  // ============================================================================
+  // MANIFIESTO DE INCLUSIÓN Y EXCLUSIÓN
+  // ============================================================================
+  "include": [
+    // Incluye las declaraciones de tipos globales de Next.js.
+    "next-env.d.ts",
+    // Incluye todos los archivos TypeScript y TSX en todo el proyecto.
+    "**/*.ts",
+    "**/*.tsx",
+    // REGLA #2: "Rescata" explícitamente los tipos generados por Next.js
+    // para habilitar características como las rutas tipadas.
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    // REGLA #1: Excluye directorios de dependencias y artefactos de build.
+    "node_modules",
+    ".next", // Excluimos la carpeta completa...
+    "scripts/" // Excluimos la carpeta de scripts si no queremos que sea analizada por defecto
+  ]
+}
