@@ -30,15 +30,17 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
-    ],
-    "*.{css,scss}": [
-      "stylelint --fix"
-    ],
-    "*.{js,jsx,ts,tsx,json,md,css,scss}": [
+      "eslint --fix",
       "prettier --write"
     ],
-    "src/**/*.ts?(x)": "() => \"tsc --noEmit\""
+    "*.{css}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ],
+    "**/*.ts?(x)": "() => \"tsc --noEmit\""
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.6.2",
