@@ -1,0 +1,10 @@
+{
+  "NotFoundPage": {
+    "title": "Página No Encontrada",
+    "subtitle": "Lo sentimos, la pizza que buscas no está en este menú.",
+    "homeButton": "Volver al Inicio"
+  },
+  "StatusLayout": {
+    "metadataTitle": "Pizzeria MetaShark - Estado"
+  }
+}

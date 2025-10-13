@@ -1,0 +1,28 @@
+
+{
+  "compilerOptions": {
+    // --- Configuración Soberana para Node.js ---
+    "module": "CommonJS",
+    "target": "es2020",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false,
+
+    // --- SSoT de Rutas (Copiada para ser explícita) ---
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "scripts/**/*.ts" // Incluye ÚNICAMENTE el directorio de scripts
+  ],
+  "exclude": [
+    "node_modules",
+    "src" // Excluye explícitamente el código de la aplicación
+  ]
+}

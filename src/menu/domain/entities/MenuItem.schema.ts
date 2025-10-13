@@ -2,12 +2,11 @@
 /**
  * @file MenuItem.schema.ts
  * @description Define el contrato de datos para la entidad MenuItem.
- * @version 4.0.0 (SSoT Type Inference)
- * @author RaZ Podestá - MetaShark Tech
+ * @version 5.0.0 (Domain Primitive Alignment)
+ * @author L.I.A. Legacy
  */
 import { z } from 'zod';
-// --- LA CORRECCIÓN CLAVE ---
-// Importamos el ESQUEMA, no el TIPO, para construir nuestro esquema más grande.
+// --- CORRECCIÓN CLAVE: Importamos el schema base de nuestro dominio ---
 import { ProductIdSchema } from '@/shared/domain/types';
 
 /**
@@ -26,12 +25,12 @@ export const menuItemSchema = z.object({
  * Utiliza el ProductIdSchema importado para garantizar la consistencia del tipo.
  */
 export const menuItemEntitySchema = menuItemSchema.extend({
-  id: ProductIdSchema, // <-- SIMPLEMENTE USAMOS EL ESQUEMA IMPORTADO
+  // Se utiliza el schema del tipo primitivo de dominio.
+  id: ProductIdSchema,
 });
 
 /**
  * El tipo de TypeScript para una entidad MenuItem validada.
- * z.infer ahora funciona perfectamente, porque la estructura del tipo
- * que produce es idéntica a la que se usa en toda la aplicación.
+ * Este tipo ahora inferirá correctamente que `id` es de tipo `ProductId`.
  */
 export type MenuItemEntity = z.infer<typeof menuItemEntitySchema>;

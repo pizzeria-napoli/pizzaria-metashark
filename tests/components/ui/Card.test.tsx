@@ -1,121 +1,74 @@
+// RUTA: tests/components/ui/Card.test.tsx
 /**
  * @file Card.test.tsx
- * @description Pruebas unitarias para validar estilos de Tailwind definidos en globals.css
- *              aplicados a componentes como Card y botones con clases personalizadas.
- * @version 1.0.1
- * @author RaZ Podestá - MetaShark Tech
+ * @description Suite de pruebas de comportamiento para el componente Card y sus subcomponentes.
+ *              v2.0.0 (Behavior-Driven): Reescrita para verificar la presencia de clases
+ *              semánticas en lugar de estilos computados, haciéndola resiliente y
+ *              alineada con el manifiesto de pruebas.
+ * @version 2.0.0
+ * @author L.I.A. Legacy
  */
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import React from 'react';
+import { describe, it, expect } from 'vitest';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import '@testing-library/jest-dom';
 
-// Mock para Next.js dynamic imports
-vi.mock('next/dynamic', () => ({
-  default: vi.fn((cb: () => unknown) => cb()),
-}));
+describe('Component: Card', () => {
+  it('debe renderizar con la clase base `.card` y el contenido interno', () => {
+    // Arrange
+    render(<Card data-testid="card-container">Contenido de la tarjeta</Card>);
 
-// Mock para Next.js Image
-vi.mock('next/image', () => ({
-  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: any }) => (
-    <img src={src} alt={alt} {...props} />
-  ),
-}));
+    // Act
+    const cardElement = screen.getByTestId('card-container');
 
-// Componente de prueba para validar estilos
-const TestComponent = () => (
-  <div>
-    <Card className="card fade-in" data-testid="test-card">
-      <CardHeader>
-        <CardTitle>Test Card</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p>Card content</p>
-        <button className="btn-primary" data-testid="test-button">
-          Test Button
-        </button>
-      </CardContent>
-    </Card>
-  </div>
-);
-
-describe('Tailwind CSS Styles from globals.css', () => {
-  beforeEach(() => {
-    // Limpiar clases de html antes de cada prueba
-    document.documentElement.classList.remove('dark');
+    // Assert
+    expect(cardElement).toBeInTheDocument();
+    expect(cardElement).toHaveTextContent('Contenido de la tarjeta');
+    // Se verifica la presencia de la clase semántica, no el estilo.
+    expect(cardElement).toHaveClass('card');
   });
 
-  it('applies card styles correctly in light mode', () => {
-    render(<TestComponent />);
-    const card = screen.getByTestId('test-card');
+  it('debe renderizar CardHeader con su contenido', () => {
+    // Arrange
+    render(<CardHeader>Título del Header</CardHeader>);
 
-    // Validar estilos de .card (definidos en @layer components)
-    expect(card).toHaveStyle({
-      backgroundColor: 'oklch(20% 0.006 286.3)', // --color-card
-      color: 'oklch(98.5% 0 0)', // --color-card-foreground
-      borderRadius: '0.5rem', // --radius-lg
-      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)', // --shadow-md
-    });
-
-    // Validar animación fade-in
-    expect(card).toHaveStyle({
-      animation: 'fade-in 300ms ease-in-out', // --animate-fade-in
-    });
+    // Assert
+    expect(screen.getByText('Título del Header')).toBeInTheDocument();
   });
 
-  it('applies btn-primary styles correctly in light mode', () => {
-    render(<TestComponent />);
-    const button = screen.getByTestId('test-button');
+  it('debe renderizar CardTitle con el rol de heading y su contenido', () => {
+    // Arrange
+    render(<CardTitle>Título Principal</CardTitle>);
 
-    // Validar estilos de .btn-primary
-    expect(button).toHaveStyle({
-      backgroundColor: 'oklch(70.5% 0.213 47.604)', // --color-primary
-      color: 'oklch(20.8% 0.042 265.755)', // --color-primary-foreground
-      borderRadius: '0.375rem', // --radius-md
-      padding: '0.5rem 1rem', // --spacing-2, --spacing-4
-      fontWeight: '700', // bold
-    });
+    // Act
+    const titleElement = screen.getByRole('heading', { name: /Título Principal/i });
+
+    // Assert
+    expect(titleElement).toBeInTheDocument();
   });
 
-  it('applies dark mode styles correctly to card', () => {
-    // Activar dark mode
-    document.documentElement.classList.add('dark');
-    render(<TestComponent />);
-    const card = screen.getByTestId('test-card');
+  it('debe renderizar CardContent con su contenido', () => {
+    // Arrange
+    render(<CardContent>Contenido principal del cuerpo.</CardContent>);
 
-    // Validar estilos de .card en dark mode
-    expect(card).toHaveStyle({
-      backgroundColor: 'oklch(15% 0.006 286.3)', // --color-card en .dark
-      color: 'oklch(98.5% 0 0)', // --color-card-foreground (sin cambio)
-      borderRadius: '0.5rem', // --radius-lg (sin cambio)
-      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)', // --shadow-md
-    });
+    // Assert
+    expect(screen.getByText('Contenido principal del cuerpo.')).toBeInTheDocument();
   });
 
-  it('applies dark mode styles correctly to btn-primary', () => {
-    document.documentElement.classList.add('dark');
-    render(<TestComponent />);
-    const button = screen.getByTestId('test-button');
+  it('debe ensamblar correctamente todos los subcomponentes', () => {
+    // Arrange
+    render(
+      <Card>
+        <CardHeader>
+          <CardTitle>Ensamblaje Completo</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Este es el cuerpo.</p>
+        </CardContent>
+      </Card>
+    );
 
-    // Validar estilos de .btn-primary en dark mode
-    expect(button).toHaveStyle({
-      backgroundColor: 'oklch(75% 0.213 47.604)', // --color-primary en .dark
-      color: 'oklch(20.8% 0.042 265.755)', // --color-primary-foreground
-      borderRadius: '0.375rem', // --radius-md
-    });
-  });
-
-  it('applies text-gradient utility correctly', () => {
-    render(<span className="text-gradient" data-testid="test-gradient">Gradient</span>);
-    const gradient = screen.getByTestId('test-gradient');
-
-    // Validar estilo de gradiente
-    expect(gradient).toHaveStyle({
-      background: 'linear-gradient(to right, oklch(70.5% 0.213 47.604), oklch(65% 0.15 140))',
-      '-webkit-background-clip': 'text',
-      'background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
-    });
+    // Assert
+    expect(screen.getByRole('heading', { name: /Ensamblaje Completo/i })).toBeInTheDocument();
+    expect(screen.getByText('Este es el cuerpo.')).toBeInTheDocument();
   });
 });

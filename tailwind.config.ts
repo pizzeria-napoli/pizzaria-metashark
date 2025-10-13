@@ -1,4 +1,12 @@
 // RUTA: tailwind.config.ts
+/**
+ * @file tailwind.config.ts
+ * @description Configuración de Tailwind CSS. Post-naturalización de Shadcn,
+ *              este archivo delega toda la lógica de theming y plugins al
+ *              SSoT en 'globals.css'.
+ * @version 2.0.0 (CSS-first Aligned)
+ * @author L.I.A. Legacy
+ */
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -7,13 +15,14 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/sections/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  theme: {}, // Correcto: Todo en globals.css.
+  theme: {
+    // El theme está intencionalmente vacío. La SSoT vive en globals.css.
+    // Shadcn extiende este objeto en memoria con las variables que mapeamos.
+  },
   plugins: [
-    // --- ESTA ES LA ÚNICA Y CORRECTA FORMA DE REGISTRAR PLUGINS ---
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
+    // El plugin 'tailwindcss-animate' ha sido movido a globals.css.
+    // Mantenemos este array vacío.
   ],
 };
 

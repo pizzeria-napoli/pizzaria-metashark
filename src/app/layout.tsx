@@ -1,8 +1,18 @@
-// src/app/layout.tsx
+// RUTA: src/app/layout.tsx
+/**
+ * @file layout.tsx
+ * @description Layout raíz NO localizado. Única Fuente de Verdad para las etiquetas <html> y <body>.
+ *              Este aparato está instrumentado con un trazador de ciclo de vida para
+ *              garantizar la observabilidad completa del renderizado en el servidor.
+ * @version 6.0.0 (Holistic Observability & Full Compliance)
+ * @author RaZ Podestá - MetaShark Tech & L.I.A. Legacy
+ */
 import type { Metadata } from 'next';
 import { Roboto, Dancing_Script } from 'next/font/google';
 import './globals.css';
 import { twMerge } from 'tailwind-merge';
+import { defaultLocale } from '../i18n.config';
+import { LifecycleTracer } from '@/components/containers/LifecycleTracer';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -27,17 +37,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // Asegúrate de que no haya espacios ni saltos de línea entre <html> y <body>
-    <html lang="es" className="dark">
-      <body
-        className={twMerge(
-          'min-h-screen bg-background font-sans antialiased',
-          roboto.variable,
-          dancingScript.variable
-        )}
-      >
-        {children}
-      </body>
-    </html>
+    <LifecycleTracer componentName="RootLayout" context={{ lang: defaultLocale }}>
+      <html lang={defaultLocale} className="dark">
+        <body
+          className={twMerge(
+            'min-h-screen bg-background font-sans antialiased',
+            roboto.variable,
+            dancingScript.variable
+          )}
+        >
+          {children}
+        </body>
+      </html>
+    </LifecycleTracer>
   );
 }

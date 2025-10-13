@@ -1,0 +1,9 @@
+{
+  "MenuPage": { "title": "Nuestro Menú" },
+  "ProductCard": { "addButton": "Añadir" },
+  "MenuList": {
+    "loading": "Cargando nuestro delicioso menú...",
+    "error": "¡Ups! Algo salió mal...",
+    "empty": "No hay productos en el menú en este momento."
+  }
+}

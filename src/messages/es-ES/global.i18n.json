@@ -1,0 +1,10 @@
+{
+  "Header": {
+    "title": "Pizzeria MetaShark"
+  },
+  "HomePage": {
+    "title": "Pizzeria MetaShark",
+    "subtitle": "El Sabor del Futuro, Entregado Hoy",
+    "menuButton": "Ver Nuestro Menú"
+  }
+}

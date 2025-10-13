@@ -2,12 +2,13 @@
 /**
  * @file MenuItem.ts
  * @description Representa la entidad de negocio para un ítem del menú.
+ * @version 2.0.0 (Domain Primitive Alignment)
+ * @author L.I.A. Legacy
  */
 import { ProductId } from '@/shared/domain/types';
 
 /**
  * Representa un ítem individual dentro del menú de la pizzería.
- * @remarks Esta clase contiene lógica de negocio como el formateo de precios.
  */
 export class MenuItem {
   /**
@@ -19,7 +20,8 @@ export class MenuItem {
    * @param category - La categoría a la que pertenece el producto.
    */
   constructor(
-    public readonly id: ProductId, // <-- CORREGIDO: Usa el tipo estricto
+    // --- CORRECCIÓN CLAVE: El ID ya no es un 'string' genérico. ---
+    public readonly id: ProductId,
     public readonly name: string,
     public readonly description: string,
     public readonly price: number,
@@ -28,13 +30,10 @@ export class MenuItem {
   ) {}
 
   /**
-   * Devuelve el precio del ítem formateado como una cadena de texto con el símbolo de moneda.
-   * @returns Una cadena como "$10.50"
+   * Devuelve el precio del ítem formateado.
    */
   get formattedPrice(): string {
-    // Asumiendo que el precio se guarda en centavos para evitar errores de punto flotante.
     const priceInDollars = this.price / 100;
-    // En una app real, usaríamos new Intl.NumberFormat para i18n de moneda.
     return `$${priceInDollars.toFixed(2)}`;
   }
 }

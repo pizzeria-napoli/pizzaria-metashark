@@ -2,6 +2,8 @@
 /**
  * @file get-full-menu.ts
  * @description Caso de uso de aplicación para obtener la lista completa de ítems del menú.
+ * @version 1.0.0
+ * @author L.I.A. Legacy
  */
 import { IMenuRepository } from '../domain/IMenuRepository';
 import { MenuItem } from '../domain/entities/MenuItem';
@@ -19,12 +21,8 @@ export class GetFullMenu {
   /**
    * Ejecuta el caso de uso.
    * @returns {Promise<MenuItem[]>} Una promesa que resuelve a un array de MenuItems.
-   *          Gracias al Manifiesto de Resiliencia, se garantiza que devolverá un array
-   *          (vacío en caso de error en la capa inferior), sin lanzar excepciones.
    */
   async execute(): Promise<MenuItem[]> {
-    // No se necesita try/catch aquí porque el repositorio ya es resiliente.
-    // Simplemente delegamos la llamada.
     return this.menuRepository.findAll();
   }
 }

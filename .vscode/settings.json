@@ -1,11 +1,17 @@
-
+// RUTA: .vscode/settings.json
 {
+  "css.lint.unknownAtRules": "ignore",
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "css.lint.unknownAtRules": "ignore",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-   "css.validate": false,
-  "scss.validate": false,
-  "stylelint.validate": ["css", "scss"]
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "alias-resolver.file": "tsconfig.json",
+  "alias-resolver.type": "custom",
+  "alias-resolver.accessPath": "compilerOptions.paths",
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
 }
