@@ -40,7 +40,7 @@
     "*.{json,md}": [
       "prettier --write"
     ],
-    "**/*.ts?(x)": "() => \"tsc --noEmit\""
+    "**/*.ts?(x)": "tsc --noEmit"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.6.2",
